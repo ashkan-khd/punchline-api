@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  punchline_api:
+    build:
+      context: .
+      ssh:
+        - default
+    container_name: punchline_api_container
+    ports:
+      - "5000:5000"
+    volumes:
+      - './:/app'
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    env_file:
+      - prod.env
+    networks:
+      - default
+      - shared_network
+
+  postgres:
+    container_name: punchline_postgres
+    image: postgres:16.3
+    environment:
+      POSTGRES_USER: punchline_user
+      POSTGRES_PASSWORD: punchline_password
+      POSTGRES_DB: punchline_db
+    ports:
+      - "5476:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
+
+
+volumes:
+  postgres_data:
+
+networks:
+  shared_network:
+    external: true

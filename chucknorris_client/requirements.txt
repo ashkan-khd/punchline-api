@@ -1,0 +1,8 @@
+nameko==2.14.1
+requests==2.32.3
+python-interface==1.6.1
+nameko-redis==1.1.0
+pytest==7.4.0
+requests-mock==1.10.0
+pytest-mock==3.6.1
+git+ssh://git@github.com/ashkan-khd/punchline-api.git@masternt#egg=punchline_interfaces&subdirectory=interfaces

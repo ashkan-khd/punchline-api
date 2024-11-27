@@ -1,0 +1,1 @@
+nameko run --config config.yml service
