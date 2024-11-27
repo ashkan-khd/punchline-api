@@ -62,11 +62,8 @@ jobs:
           cd punchline_api
           pip install -r requirements.txt
 
-      - name: Set testing environment
-        run: |
-          cp .env.testing punchline_api/.env
-
       - name: Run pytest for Punchline API
         run: |
           cd punchline_api
+          cp .env.testing .env
           pytest tests
