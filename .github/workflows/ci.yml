@@ -1,0 +1,69 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  chucknorris-tests:
+    name: Run tests for ChuckNorris Client
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          cd chucknorris_client
+          pip install -r requirements.txt
+
+      - name: Run pytest for ChuckNorris
+        run: |
+          cd chucknorris_client
+          pytest tests
+
+  punchline-tests:
+    name: Run tests for Punchline API
+    runs-on: ubuntu-latest
+    needs: chucknorris-tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          cd punchline_api
+          pip install -r requirements.txt
+
+      - name: Run pytest for Punchline API
+        run: |
+          cd punchline_api
+          cp .env.testing .env
+          pytest tests

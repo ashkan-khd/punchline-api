@@ -1,18 +1,21 @@
-version: '3.8'
-
 services:
-  postgres:
-    container_name: punchline_postgres
+  postgres-dev:
+    container_name: punchline_postgres_dev
     image: postgres:16.3
     environment:
       POSTGRES_USER: punchline_user
       POSTGRES_PASSWORD: punchline_password
       POSTGRES_DB: punchline_db
     ports:
-      - "5476:5432"
+      - "5477:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_dev:/var/lib/postgresql/data
+    networks:
+      - punchline_api_network_dev
 
 
 volumes:
-  postgres_data:
+  postgres_data_dev:
+
+networks:
+  punchline_api_network_dev:
