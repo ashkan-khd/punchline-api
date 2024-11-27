@@ -22,6 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd chucknorris_client
+          pip install -e ../interfaces 
           pip install -r requirements.txt
 
       - name: Run pytest for ChuckNorris
@@ -46,6 +47,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd punchline_api
+          pip install -e ../interfaces 
           pip install -r requirements.txt
 
       - name: Set testing environment
