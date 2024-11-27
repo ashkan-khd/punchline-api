@@ -29,7 +29,7 @@ class Config(ABC):
     def _initialize_db(self):
         from app import db, migrate
         db.init_app(self.app)
-        migrate.init_app(self.app)
+        migrate.init_app(self.app, db)
 
     def _initialize_api(self):
         from app import api
