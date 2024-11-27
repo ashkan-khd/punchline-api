@@ -54,5 +54,5 @@ class TestChuckNorrisService:
 
         result = self.service.get_joke("unknown")
 
-        expected = ChuckNorrisServiceData(successful=False, data={"joke": "Specific joke"}).to_dict()
+        expected = ChuckNorrisServiceData(successful=False, data={"error": "ERR", "message": "Not found"}).to_dict()
         assert result == expected
