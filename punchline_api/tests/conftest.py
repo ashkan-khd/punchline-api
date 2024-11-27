@@ -8,10 +8,6 @@ from app.models import Joke
 @pytest.fixture(scope='session')
 def app():
     app = create_app()
-    app.config.update({
-        'TESTING': True,
-        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:'
-    })
 
     with app.app_context():
         db.create_all()

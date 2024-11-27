@@ -19,27 +19,8 @@ api = Api()
 def create_app():
     app = Flask(__name__)
 
-    # Config from environment variables
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['NAMEKO_AMQP_URI'] = os.getenv('NAMEKO_AMQP_URI', 'amqp://guest:guest@localhost')
-
-    # Initialize extensions
-    db.init_app(app)
-    migrate.init_app(app, db)
-    if environment != 'testing':
-        service_pool.init_app(app)
-
-    # Initialize Flask-RESTful
-    init_api(app)
+    from app.config import Config, ConfigBuilder
+    config = ConfigBuilder.set_app(app).set_environment(environment).get_instance()
+    config.initialize()
 
     return app
-
-
-def init_api(flask_app):
-    from .resources import url_mapping
-
-    for resource, url in url_mapping:
-        api.add_resource(resource, url)
-
-    api.init_app(flask_app)

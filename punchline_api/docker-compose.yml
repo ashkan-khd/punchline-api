@@ -29,7 +29,7 @@ services:
       POSTGRES_PASSWORD: punchline_password
       POSTGRES_DB: punchline_db
     ports:
-      - "5476:5432"
+      - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
