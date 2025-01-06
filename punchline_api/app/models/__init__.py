@@ -1,1 +1,1 @@
-from .joke import Joke
+from .joke import JokeValueFields, Joke

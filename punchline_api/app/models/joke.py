@@ -1,8 +1,18 @@
+from typing import List
+
 from app import db
 from datetime import datetime
 
 
-class Joke(db.Model):
+class JokeValueFields:
+    id: str
+    value: str
+    categories: List[str]
+    created_at: datetime
+    updated_at: datetime
+
+
+class Joke(db.Model, JokeValueFields):
     __tablename__ = 'jokes'
 
     id = db.Column(db.Integer, primary_key=True)

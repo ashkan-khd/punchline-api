@@ -1,5 +1,5 @@
 import pytest
-from punchline_interfaces import ChuckNorrisServiceInterface
+from punchline_interfaces import ChuckNorrisServiceInterface, DadJokeServiceInterface
 
 from app import create_app, db
 from app.models import Joke
@@ -27,8 +27,13 @@ def runner(app):
 
 
 @pytest.fixture
-def mocked_service(mocker):
+def mocked_chuck_norris_service(mocker):
     return mocker.patch.object(ChuckNorrisServiceInterface, "get_instance", autospec=True)
+
+
+@pytest.fixture
+def mocked_dad_joke_service(mocker):
+    return mocker.patch.object(DadJokeServiceInterface, "get_instance", autospec=True)
 
 
 @pytest.fixture(autouse=True)

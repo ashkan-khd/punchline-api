@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class ChuckNorrisErrorData(BaseModel):
+class ServiceError(BaseModel):
     error: str
     message: str
 

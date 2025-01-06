@@ -1,35 +1,49 @@
 from typing import Optional
 
 from flask_restful import Resource, marshal_with, abort
-from punchline_interfaces import ChuckNorrisServiceInterface
+from punchline_interfaces import ChuckNorrisServiceInterface, DadJokeServiceInterface
 
 from app import db, service_pool
 from app.models import Joke
 from app.resources.joke.schema import joke_fields, joke_parser, joke_fields_with_local
-from app.service.chuck_norris import ChuckNorrisServiceData, ChuckNorrisJoke
+from app.service import ServiceJoke, ServiceData
 
 
 class RetrieveUpdateDeleteJokeResource(Resource):
     @property
-    def chucknorris_service(self):
+    def chuck_norris_service(self):
         return ChuckNorrisServiceInterface.get_instance(service_pool)
 
-    def get_joke_from_chuck_norris(self, joke_id) -> Optional[ChuckNorrisJoke]:
-        service_raw_data = self.chucknorris_service.get_joke(joke_id)
-        service_data = ChuckNorrisServiceData.model_validate(service_raw_data)
+    @property
+    def dad_joke_service(self):
+        return DadJokeServiceInterface.get_instance(service_pool)
+
+    def convert_raw_data_to_joke(self, service_raw_data) -> Optional[ServiceJoke]:
+        service_data = ServiceData.model_validate(service_raw_data)
         if not service_data.successful:
             return None
-        joke: ChuckNorrisJoke = service_data.data
+        joke: ServiceJoke = service_data.data
         return joke
+
+    def get_joke_from_chuck_norris(self, joke_id) -> Optional[ServiceJoke]:
+        return self.convert_raw_data_to_joke(
+            self.chuck_norris_service.get_joke(joke_id)
+        )
+
+    def get_joke_from_dad(self, joke_id) -> Optional[ServiceJoke]:
+        return self.convert_raw_data_to_joke(
+            self.dad_joke_service.get_joke(joke_id)
+        )
+
 
     @marshal_with(joke_fields_with_local)
     def get(self, joke_id):
         try:
             joke = Joke.query.filter_by(id=int(joke_id), is_deleted=False).first()
         except ValueError:
-            joke = None
+            joke = self.get_joke_from_chuck_norris(joke_id) or self.get_joke_from_dad(joke_id)
 
-        if (joke := joke or self.get_joke_from_chuck_norris(joke_id)) is None:
+        if joke is None:
             abort(404, message=f"Joke {joke_id} not found")
 
         return joke

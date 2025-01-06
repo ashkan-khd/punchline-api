@@ -1,42 +1,57 @@
 from typing import Optional, List
 
-from flask import request
-from flask_restful import Resource, marshal_with
-from punchline_interfaces import ChuckNorrisServiceInterface
+from flask_restful import marshal_with
+from punchline_interfaces import ChuckNorrisServiceInterface, DadJokeServiceInterface
 
 from app import db, service_pool
 from app.models import Joke
+
+from app.resources.utils import Resource
 from app.resources.joke.schema import joke_fields, joke_parser
-from app.service.chuck_norris import ChuckNorrisJoke, ChuckNorrisServiceData
+
+from app.service import ServiceJoke, ServiceData
 
 
 class ListCreateJokeResource(Resource):
     @property
-    def chucknorris_service(self):
+    def chuck_norris_service(self):
         return ChuckNorrisServiceInterface.get_instance(service_pool)
 
-    def get_joke_from_chuck_norris(self, query) -> Optional[List[ChuckNorrisJoke]]:
-        service_raw_data = self.chucknorris_service.query_jokes(query)
-        service_data = ChuckNorrisServiceData.model_validate(service_raw_data)
+    @property
+    def dad_joke_service(self):
+        return DadJokeServiceInterface.get_instance(service_pool)
+
+    def convert_raw_data_to_jokes(self, service_raw_data) -> Optional[List[ServiceJoke]]:
+        service_data = ServiceData.model_validate(service_raw_data)
         if not service_data.successful:
             return []
-        jokes: List[ChuckNorrisJoke] = service_data.data
+        jokes: List[ServiceJoke] = service_data.data
         return jokes
+
+    def get_jokes_from_chuck_norris(self, query) -> Optional[List[ServiceJoke]]:
+        return self.convert_raw_data_to_jokes(
+            self.chuck_norris_service.query_jokes(query)
+        )
+
+    def get_jokes_from_dad(self, query) -> Optional[List[ServiceJoke]]:
+        return self.convert_raw_data_to_jokes(
+            self.dad_joke_service.query_jokes(query)
+        )
 
     @marshal_with(joke_fields)
     def get(self):
-        query = request.args.get('query', '')
-        if query.strip() == '':
+        if not self.params.query:
             return []
 
         jokes = Joke.query.filter(
-            Joke.value.ilike(f'%{query}%'),
+            Joke.value.ilike(f'%{self.params.query}%'),
             Joke.is_deleted == False
         ).all()
 
         return [
             *list(jokes),
-            *self.get_joke_from_chuck_norris(query),
+            *self.get_jokes_from_chuck_norris(self.params.query),
+            *self.get_jokes_from_dad(self.params.query),
         ]
 
     @marshal_with(joke_fields)

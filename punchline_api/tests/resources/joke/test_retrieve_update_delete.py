@@ -5,9 +5,9 @@ from app.models import Joke
 
 class TestRetrieveUpdateDeleteJokeResource:
     @pytest.fixture(autouse=True)
-    def setup(self, client, mocked_service, joke):
+    def setup(self, client, mocked_chuck_norris_service, joke):
         self.client = client
-        self.mocked_service = mocked_service
+        self.mocked_service = mocked_chuck_norris_service
         self.joke = joke
 
     def test_retrieve_joke_locally(self):
