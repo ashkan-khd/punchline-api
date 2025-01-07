@@ -7,7 +7,7 @@ from app import db, service_pool
 from app.models import Joke
 
 from app.resources.utils import Resource
-from app.resources.joke.schema import joke_fields, joke_parser
+from app.resources.joke.schema import joke_fields, joke_parser, joke_fields_with_source
 
 from app.service import ServiceJoke, ServiceData
 
@@ -38,7 +38,7 @@ class ListCreateJokeResource(Resource):
             self.dad_joke_service.query_jokes(query)
         )
 
-    @marshal_with(joke_fields)
+    @marshal_with(joke_fields_with_source)
     def get(self):
         if not self.params.query:
             return []

@@ -11,6 +11,7 @@ class ServiceJokeConverter(JokeConverterInterface):
         return ServiceJoke(
             id=joke.id,
             value=joke.value,
+            source="chuck_norris",
             categories=joke.categories,
             created_at=joke.created_at,
             updated_at=joke.updated_at,
@@ -20,4 +21,5 @@ class ServiceJokeConverter(JokeConverterInterface):
         return ServiceJoke(
             id=joke.id,
             value=joke.joke,
+            source="dad",
         )

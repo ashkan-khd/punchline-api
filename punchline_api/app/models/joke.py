@@ -10,6 +10,7 @@ class JokeValueFields:
     categories: List[str]
     created_at: datetime
     updated_at: datetime
+    source: str
 
 
 class Joke(db.Model, JokeValueFields):
@@ -23,8 +24,8 @@ class Joke(db.Model, JokeValueFields):
     is_deleted = db.Column(db.Boolean, default=False)
 
     @property
-    def local(self):
-        return True
+    def source(self) -> str:
+        return "local"
 
     def to_dict(self):
         return {

@@ -5,7 +5,7 @@ from punchline_interfaces import ChuckNorrisServiceInterface, DadJokeServiceInte
 
 from app import db, service_pool
 from app.models import Joke
-from app.resources.joke.schema import joke_fields, joke_parser, joke_fields_with_local
+from app.resources.joke.schema import joke_fields, joke_parser, joke_fields_with_source
 from app.service import ServiceJoke, ServiceData
 
 
@@ -36,7 +36,7 @@ class RetrieveUpdateDeleteJokeResource(Resource):
         )
 
 
-    @marshal_with(joke_fields_with_local)
+    @marshal_with(joke_fields_with_source)
     def get(self, joke_id):
         try:
             joke = Joke.query.filter_by(id=int(joke_id), is_deleted=False).first()

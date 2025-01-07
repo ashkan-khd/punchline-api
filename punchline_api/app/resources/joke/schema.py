@@ -14,7 +14,7 @@ joke_fields = {
     'updated_at': fields.DateTime(dt_format='iso8601')
 }
 
-joke_fields_with_local = {
+joke_fields_with_source = {
     **joke_fields,
-    'local': fields.Boolean,
+    'source': fields.String,
 }

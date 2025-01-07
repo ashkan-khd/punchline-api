@@ -5,6 +5,8 @@ services:
       ssh:
         - default
     container_name: chuck_norris_container
+    depends_on:
+      - redis
     networks:
       - default
       - shared_network
