@@ -1,0 +1,8 @@
+nameko==2.14.1
+httpx==0.28.1
+pytest==7.4.0
+requests-mock==1.10.0
+pytest-mock==3.6.1
+git+ssh://git@github.com/ashkan-khd/punchline-api.git@4-support-dad-jokes#egg=punchline_interfaces&subdirectory=interfaces
+beanie==1.29.0
+motor==3.6.0

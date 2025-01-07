@@ -1,0 +1,1 @@
+AMQP_URI: "pyamqp://punchline_user:punchline_password@rabbitmq"

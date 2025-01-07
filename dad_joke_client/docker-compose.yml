@@ -1,0 +1,24 @@
+services:
+  dad_joke_service:
+    build:
+      context: .
+      ssh:
+        - default
+    container_name: dad_joke_container
+    depends_on:
+      - mongo
+    networks:
+      - default
+      - shared_network
+
+  mongo:
+    image: mongo:5.0
+    container_name: dad_joke_mongo
+    ports:
+      - "27028:27017"
+    networks:
+      - default
+
+networks:
+  shared_network:
+    external: true
