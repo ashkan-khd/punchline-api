@@ -16,8 +16,13 @@ services:
     container_name: dad_joke_mongo
     ports:
       - "27028:27017"
+    volumes:
+      - mongo_data:/data/db
     networks:
       - default
+
+volumes:
+  mongo_data:
 
 networks:
   shared_network:

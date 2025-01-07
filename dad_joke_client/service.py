@@ -1,10 +1,14 @@
 import asyncio
 import dataclasses
+import logging
 
 from nameko.rpc import rpc
 from punchline_interfaces import DadJokeServiceInterface
 
 from client import DadJokeClient
+from dependencies import BeanieDatabaseProvider
+
+# logger = logging.getLogger(__name__)
 
 
 @dataclasses.dataclass
@@ -17,6 +21,7 @@ class DadJokeServiceData:
 
 
 class DadJokeService(DadJokeServiceInterface):
+    loop = BeanieDatabaseProvider(db_uri="mongodb://mongo:27017", db_name="dadjokes")  # Configure as needed
 
     @property
     def client(self) -> DadJokeClient:
@@ -25,7 +30,7 @@ class DadJokeService(DadJokeServiceInterface):
     @rpc
     def query_jokes(self, query: str) -> dict:
         try:
-            result = asyncio.run(self.client.get_joke_by_search(query))
+            result = self.loop.run_until_complete(self.client.get_joke_by_search(query))
             successful = True
         except Exception as e:
             result = {"message": str(e)}
@@ -35,7 +40,7 @@ class DadJokeService(DadJokeServiceInterface):
     @rpc
     def get_joke(self, joke_id: str) -> dict:
         try:
-            result = asyncio.run(self.client.get_joke_by_id(joke_id))
+            result = self.loop.run_until_complete(self.client.get_joke_by_id(joke_id))
             successful = True
         except Exception as e:
             result = {"message": str(e)}
