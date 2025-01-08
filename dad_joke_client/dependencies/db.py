@@ -5,9 +5,10 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 from nameko.extensions import DependencyProvider
 
-from models import SearchCache
+from documents import SearchCache, DadJoke
 
 logger = logging.getLogger(__name__)
+
 
 class BeanieDatabaseProvider(DependencyProvider):
     def __init__(self, db_uri: str, db_name: str):
@@ -21,7 +22,7 @@ class BeanieDatabaseProvider(DependencyProvider):
         # Initialize Beanie with the desired document models
         logger.info("Initializing Beanie")
         self.db = self.client[self.db_name]
-        await init_beanie(database=self.db, document_models=[SearchCache])
+        await init_beanie(database=self.db, document_models=[SearchCache, DadJoke])
         logger.info("Beanie initialized")
 
     def setup(self):

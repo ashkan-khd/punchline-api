@@ -5,7 +5,7 @@ from typing import Dict, List
 import httpx
 from pymongo.errors import DuplicateKeyError
 
-from models import SearchCache
+from documents import SearchCache, DadJoke
 
 
 # logger = logging.getLogger(__name__)
@@ -82,6 +82,10 @@ class DadJokeClient:
         return results
 
     async def get_joke_by_id(self, id_: str) -> Dict:
+        dad_joke = await DadJoke.find_one(DadJoke.id == id_)
+        if dad_joke:
+            return dad_joke.joke
+
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{self.BASE_URL}/j/{id_}",
@@ -91,4 +95,8 @@ class DadJokeClient:
             raise Exception(
                 f"Failed to fetch joke with id: {id_} with status code: {response.status_code} and message: {response.text}"
             )
-        return response.json()
+        joke = response.json()
+
+        await DadJoke(id=id_, joke=joke).insert()
+
+        return joke
