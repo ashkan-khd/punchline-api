@@ -1,7 +1,9 @@
 from typing import List
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel
 from datetime import datetime
+
+from app.service.converter import JokeConverterInterface
 
 
 class ChuckNorrisJoke(BaseModel):
@@ -10,7 +12,6 @@ class ChuckNorrisJoke(BaseModel):
     created_at: datetime
     updated_at: datetime
     value: str
-    local: bool = False
 
     class Config:
         json_encoders = {
@@ -31,3 +32,6 @@ class ChuckNorrisJoke(BaseModel):
         if isinstance(obj.get("updated_at"), str):
             obj["updated_at"] = datetime.strptime(obj["updated_at"], "%Y-%m-%d %H:%M:%S.%f")
         return super().model_validate(obj, *args, **kwargs)
+
+    def accept_converter(self, converter: JokeConverterInterface):
+        return converter.convert_chuck_norris_joke(self)

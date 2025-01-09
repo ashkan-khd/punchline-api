@@ -5,14 +5,15 @@ from app.models import Joke
 
 class TestListCreateJokeResource:
     @pytest.fixture(autouse=True)
-    def setup(self, client, mocked_service, joke):
+    def setup(self, client, mocked_chuck_norris_service, mocked_dad_joke_service, joke):
         self.client = client
-        self.mocked_service = mocked_service
+        self.mocked_chuck_norris_service = mocked_chuck_norris_service
+        self.mocked_dad_joke_service = mocked_dad_joke_service
         self.joke = joke
 
     def test_list_jokes(self):
         chucknorris_id = "Bup36JbASxW5R-HzSI5ygA"
-        self.mocked_service.return_value.query_jokes.return_value = dict(
+        self.mocked_chuck_norris_service.return_value.query_jokes.return_value = dict(
             successful=True,
             data=[
                 {
@@ -27,10 +28,18 @@ class TestListCreateJokeResource:
                 }
             ]
         )
+        self.mocked_dad_joke_service.return_value.query_jokes.return_value = dict(
+            successful=False,
+            data=dict(
+                error="QUERY_ERROR",
+                message="Failed to fetch jokes with status code: 404 and message: Not Found",
+            ),
+        )
+
         response = self.client.get("/api/jokes/?query=divide")
         assert response.status_code == 200
         assert {joke["id"] for joke in response.json} == {chucknorris_id, str(self.joke.id)}
-        self.mocked_service.return_value.query_jokes.assert_called_once_with("divide")
+        self.mocked_chuck_norris_service.return_value.query_jokes.assert_called_once_with("divide")
 
     def test_create_joke(self):
         response = self.client.post("/api/jokes/", json={"value": "New joke", "categories": ["nerdy"]})

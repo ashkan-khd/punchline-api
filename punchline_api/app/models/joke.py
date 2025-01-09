@@ -1,8 +1,19 @@
+from typing import List
+
 from app import db
 from datetime import datetime
 
 
-class Joke(db.Model):
+class JokeValueFields:
+    id: str
+    value: str
+    categories: List[str]
+    created_at: datetime
+    updated_at: datetime
+    source: str
+
+
+class Joke(db.Model, JokeValueFields):
     __tablename__ = 'jokes'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -13,8 +24,8 @@ class Joke(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
 
     @property
-    def local(self):
-        return True
+    def source(self) -> str:
+        return "local"
 
     def to_dict(self):
         return {

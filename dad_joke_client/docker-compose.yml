@@ -1,23 +1,28 @@
 services:
-  chuck_norris_service:
+  dad_joke_service:
     build:
       context: .
       ssh:
         - default
-    container_name: chuck_norris_container
+    container_name: dad_joke_container
     depends_on:
-      - redis
+      - mongo
     networks:
       - default
       - shared_network
 
-  redis:
-    image: redis:6.2
-    container_name: chuck_norris_redis
+  mongo:
+    image: mongo:5.0
+    container_name: dad_joke_mongo
     ports:
-      - "6387:6379"
+      - "27028:27017"
+    volumes:
+      - mongo_data:/data/db
     networks:
       - default
+
+volumes:
+  mongo_data:
 
 networks:
   shared_network:

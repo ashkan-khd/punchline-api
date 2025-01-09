@@ -247,3 +247,5 @@ cython_debug/
 instance/*
 !instance/.gitignore
 
+github_actions
+github_actions.pub

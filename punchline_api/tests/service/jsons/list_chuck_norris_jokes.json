@@ -1,0 +1,40 @@
+[
+ {
+  "categories": [
+   "fashion"
+  ],
+  "created_at": "2020-01-05 13:42:18.823766",
+  "icon_url": "https://api.chucknorris.io/img/avatar/chuck-norris.png",
+  "id": "0wdewlp2tz-mt_upesvrjw",
+  "updated_at": "2020-01-05 13:42:18.823766",
+  "url": "https://api.chucknorris.io/jokes/0wdewlp2tz-mt_upesvrjw",
+  "value": "Chuck Norris does not follow fashion trends, they follow him. But then he turns around and kicks their ass. Nobody follows Chuck Norris."
+ },
+ {
+  "categories": [],
+  "created_at": "2020-01-05 13:42:20.841843",
+  "icon_url": "https://api.chucknorris.io/img/avatar/chuck-norris.png",
+  "id": "1Q_o4vHHQPqJibBO2OnhlQ",
+  "updated_at": "2020-01-05 13:42:20.841843",
+  "url": "https://api.chucknorris.io/jokes/1Q_o4vHHQPqJibBO2OnhlQ",
+  "value": "Sadly, Chuck Norris' famous last words were: \"Watch this\". \"Watch\" meaning, \"please kindly pay attention and observe\". \"This\" meaning, \"my snakeskin boot striking your skull thereby splattering your brains upon the ceiling, wall, hallway and finely fashioned Berber carpet\"."
+ },
+ {
+  "categories": [],
+  "created_at": "2020-01-05 13:42:21.179347",
+  "icon_url": "https://api.chucknorris.io/img/avatar/chuck-norris.png",
+  "id": "X5AMMHQKTnSdIwIBjYze1A",
+  "updated_at": "2020-01-05 13:42:21.179347",
+  "url": "https://api.chucknorris.io/jokes/X5AMMHQKTnSdIwIBjYze1A",
+  "value": "The Batmobile was fashioned after Chuck Norris' pimpmobile."
+ },
+ {
+  "categories": [],
+  "created_at": "2020-01-05 13:42:25.352697",
+  "icon_url": "https://api.chucknorris.io/img/avatar/chuck-norris.png",
+  "id": "o30pbm-KR8yjZHKVP7TWvA",
+  "updated_at": "2020-01-05 13:42:25.352697",
+  "url": "https://api.chucknorris.io/jokes/o30pbm-KR8yjZHKVP7TWvA",
+  "value": "A meme ( /&#712;mi&#720;m/; MEEM) is \"an idea, behavior or style that spreads from person to person within a culture.\" A meme acts as a unit for carrying cultural ideas, symbols or practices, which can be transmitted from one mind to another through writing, speech, gestures, rituals or other imitable phenomena. Supporters of the concept regard memes as cultural analogues to genes in that they self-replicate, mutate and respond to selective pressures. The word meme is a shortening (modeled on gene) of mimeme (from Ancient Greek m&#299;m&#275;ma, \"something imitated\", from mimeisthai, \"to imitate\", from mimos \"mime\") and it was coined by the British evolutionary biologist Richard Dawkins in The Selfish Gene (1976) as a concept for discussion of evolutionary principles in explaining the spread of ideas and cultural phenomena. Examples of memes given in the book included melodies, catch-phrases, fashion and the Chuck Norris."
+ }
+]

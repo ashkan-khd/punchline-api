@@ -1,7 +1,8 @@
+from abc import ABC
 from typing import TypeVar
 
 
-class ServiceInterface:
+class ServiceInterface(ABC):
     name: str
 
     @classmethod
