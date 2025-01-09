@@ -37,7 +37,6 @@ class DadJokeClient:
             await search_cache.set({SearchCache.results: search_cache.results + results})
             await search_cache.set({SearchCache.last_access: datetime.now(timezone.utc)})
 
-
     async def _get_joke_by_search_for_page_and_update(self, term: str, page: int, update: bool) -> List[Dict]:
         response_json = await self._get_joke_by_search_for_page(term, page)
         results = response_json["results"]
@@ -82,8 +81,7 @@ class DadJokeClient:
         return results
 
     async def get_joke_by_id(self, id_: str) -> Dict:
-        dad_joke = await DadJoke.find_one(DadJoke.id == id_)
-        if dad_joke:
+        if dad_joke := await DadJoke.find_one(DadJoke.id == id_):
             return dad_joke.joke
 
         async with httpx.AsyncClient() as client:
